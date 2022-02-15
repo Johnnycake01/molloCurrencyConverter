@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="suffix"><b>%1$s</b></string>
+    <string name="currency_calculator_text">Currency \nCalculator<font color="#59d49a"> <b>.</b></font></string>
+    <string name="convert">Convert</string>
+    <string name="link_to_view_exchange_rate"><font color="#0F8CFA"><u>mid-market Exchange rate at %1$s UTC</u></font></string>
+    <string name="past_30_days">Past 30 days</string>
+    <string name="dot">.</string>
+    <string name="past_90_days">Past 90 days</string>
 </resources>
