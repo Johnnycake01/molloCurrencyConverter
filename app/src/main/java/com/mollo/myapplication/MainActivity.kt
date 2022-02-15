@@ -3,11 +3,16 @@ package com.mollo.myapplication
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.mollo.myapplication.databinding.ActivityMainBinding
 import com.mollo.myapplication.utils.ACCESS_KEY
 import com.mollo.myapplication.utils.ApiCallNetworkResource
+import com.mollo.myapplication.utils.ListOfCountry
 import com.mollo.myapplication.viewmodel.ConversionServiceViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,6 +24,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setUpCurrency("USD","NGN")
+        setUpAutoCompleteTextView()
+
+
+
+
+
+
         Log.d("conversionRate", "onCreate: working")
         viewModel.getAllRates(ACCESS_KEY)
         viewModel.conversionRates.observe(this) {
@@ -38,5 +51,31 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
+    }
+
+    private fun setUpAutoCompleteTextView() {
+        val adapter = ArrayAdapter(this, R.layout.list_item, ListOfCountry)
+        (binding.dropDownFirstCurrency.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+        (binding.dropDownSecondCurrency.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+
+        (binding.dropDownFirstCurrency.editText as? AutoCompleteTextView)?.setOnItemClickListener { adapterView, view, i, l ->
+            setUpCurrency(firstCurrency = adapterView.getItemAtPosition(i).toString())
+            (binding.textFieldSecondCurrency as? EditText)?.setText("kkkkkk")
+        }
+        (binding.dropDownSecondCurrency.editText as? AutoCompleteTextView)?.setOnItemClickListener { adapterView, view, i, l ->
+            setUpCurrency(secondCurrency = adapterView.getItemAtPosition(i).toString())
+
+        }
+    }
+
+    private fun setUpCurrency(firstCurrency: String? = null, secondCurrency: String?= null) {
+        if (firstCurrency != null){
+            binding.textFieldFirstCurrency.suffixText = firstCurrency
+            binding.textFieldFirstCurrency.hint = firstCurrency
+        }
+       if (secondCurrency != null){
+           binding.textFieldSecondCurrency.suffixText = secondCurrency
+           binding.textFieldSecondCurrency.hint = secondCurrency
+       }
     }
 }
