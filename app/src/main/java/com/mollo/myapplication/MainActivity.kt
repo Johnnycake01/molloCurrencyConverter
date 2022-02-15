@@ -27,6 +27,31 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setUpCurrency(currency1,currency2)
         setUpAutoCompleteTextView()
+        toggleColorsTheme()
+        submitButtonClickedToConvertCurrency()
+        viewModel.getAllRates(ACCESS_KEY)
+        observeNetworkCallResult()
+    }
+
+    private fun observeNetworkCallResult() {
+        viewModel.conversionRates.observe(this) {
+            when (it) {
+                is ApiCallNetworkResource.Loading ->{
+                    Toast.makeText(this,"loading...",Toast.LENGTH_LONG).show()
+
+                }
+                is ApiCallNetworkResource.Success ->{
+                    listOfRates = it.data?.rates!!
+                }
+                is ApiCallNetworkResource.Error ->{
+
+                }
+
+            }
+        }
+    }
+
+    private fun submitButtonClickedToConvertCurrency() {
         binding.convertButton.setOnClickListener {
             binding.textinputError.visibility= View.GONE
             if (listOfRates == null){
@@ -48,21 +73,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.getAllRates(ACCESS_KEY)
-        viewModel.conversionRates.observe(this) {
-            when (it) {
-                is ApiCallNetworkResource.Loading ->{
-                    Toast.makeText(this,"loading...",Toast.LENGTH_LONG).show()
+    }
 
-                }
-                is ApiCallNetworkResource.Success ->{
-                    listOfRates = it.data?.rates!!
-                }
-                is ApiCallNetworkResource.Error ->{
-
-                }
-
-            }
+    private fun toggleColorsTheme() {
+        val colorTheme30days = Color(binding.txtPast30days,binding.dotPast30days,this)
+        val colorTheme90days = Color(binding.txtPast90days,binding.dotPast90days,this)
+        colorTheme30days.resetColor()
+        colorTheme90days.faintColor()
+        binding.L30days.setOnClickListener {
+            colorTheme30days.resetColor()
+            colorTheme90days.faintColor()
+        }
+        binding.L90days.setOnClickListener {
+            colorTheme90days.resetColor()
+            colorTheme30days.faintColor()
         }
     }
 

@@ -1,5 +1,4 @@
 package com.mollo.myapplication.utils
-
 import androidx.lifecycle.LifecycleOwner
 
 fun observeNetworkConnection(connectivityLiveData:ConnectivityLiveData, context: LifecycleOwner, funcWhenTrue:()->Unit, funcWhenFalse:()->Unit){
