@@ -8,4 +8,5 @@
     <string name="past_30_days">Past 30 days</string>
     <string name="dot">.</string>
     <string name="past_90_days">Past 90 days</string>
+    <string name="amount">Amount</string>
 </resources>

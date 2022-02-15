@@ -3,6 +3,7 @@ package com.mollo.myapplication
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         setUpCurrency(currency1,currency2)
         setUpAutoCompleteTextView()
         binding.convertButton.setOnClickListener {
+            binding.textinputError.visibility= View.GONE
             if (listOfRates == null){
                 viewModel.getAllRates(ACCESS_KEY)
                 Toast.makeText(this, "network error!", Toast.LENGTH_SHORT).show()
@@ -38,10 +40,10 @@ class MainActivity : AppCompatActivity() {
                     ,firstCurrency.toString().toDouble(), currency2
                 )
                 "$resultOfConversion $currency2".also { binding.textFieldSecondCurrency.text = it }
-
             }else{
                 Toast.makeText(this, "please enter the amount you want to Convert",
                     Toast.LENGTH_SHORT).show()
+                binding.textinputError.visibility= View.VISIBLE
 
             }
         }
@@ -54,12 +56,9 @@ class MainActivity : AppCompatActivity() {
 
                 }
                 is ApiCallNetworkResource.Success ->{
-                    Toast.makeText(this,it.data?.rates?.AED.toString(),Toast.LENGTH_LONG).show()
-                    Log.d("conversionRate", "onCreate: ${it.data?.rates}")
                     listOfRates = it.data?.rates!!
                 }
                 is ApiCallNetworkResource.Error ->{
-                    Log.d("conversionRate", it.message.toString())
 
                 }
 
@@ -68,16 +67,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpAutoCompleteTextView() {
-        val adapter = ArrayAdapter(this, R.layout.list_item, ListOfCountry)
-        (binding.dropDownFirstCurrency.editText as? AutoCompleteTextView)?.setAdapter(adapter)
-        (binding.dropDownSecondCurrency.editText as? AutoCompleteTextView)?.setAdapter(adapter)
 
-        (binding.dropDownFirstCurrency.editText as? AutoCompleteTextView)?.setOnItemClickListener {
+        val adapter = ArrayAdapter(this, R.layout.list_item, ListOfCountry)
+        val dropDown1 = (binding.dropDownFirstCurrency.editText as? AutoCompleteTextView)
+        val dropDown2 = (binding.dropDownSecondCurrency.editText as? AutoCompleteTextView)
+        dropDown1?.setText(currency1)
+        dropDown2?.setText(currency2)
+        dropDown1?.setAdapter(adapter)
+        dropDown2?.setAdapter(adapter)
+
+
+        dropDown1?.setOnItemClickListener {
                 adapterView, _, i, _ ->
             currency1 = adapterView.getItemAtPosition(i).toString()
             setUpCurrency(firstCurrency = adapterView.getItemAtPosition(i).toString())
         }
-        (binding.dropDownSecondCurrency.editText as? AutoCompleteTextView)?.setOnItemClickListener {
+        dropDown2?.setOnItemClickListener {
                 adapterView, _, i, _ ->
             currency2 = adapterView.getItemAtPosition(i).toString()
             setUpCurrency(secondCurrency = adapterView.getItemAtPosition(i).toString())
