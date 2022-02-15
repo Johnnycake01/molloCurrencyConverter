@@ -27,10 +27,7 @@ class ConversionServiceViewModel @Inject constructor(
             _conversionRates.postValue(ApiCallNetworkResource.Loading())
             try {
                 delay(2000)
-                Log.d("conversionRate", "getAllRates: before working ")
                 val response = conversionRepository.getRates(accessKey)
-                Log.d("conversionRate", "getAllRates:after working ")
-
                 if (response.isSuccessful){
                     val responseBody =response.body()
                     _conversionRates.postValue(ApiCallNetworkResource.Success("successful",responseBody))
