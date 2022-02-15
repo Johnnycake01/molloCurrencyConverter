@@ -26,14 +26,16 @@ class ConversionServiceViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO){
             _conversionRates.postValue(ApiCallNetworkResource.Loading())
             try {
-                delay(2000)
+                delay(1000)
                 val response = conversionRepository.getRates(accessKey)
                 if (response.isSuccessful){
                     val responseBody =response.body()
-                    _conversionRates.postValue(ApiCallNetworkResource.Success("successful",responseBody))
+                    _conversionRates.postValue(ApiCallNetworkResource
+                        .Success("successful",responseBody))
 
                 }else{
-                    _conversionRates.postValue(ApiCallNetworkResource.Error("unsuccessful",response.body()))
+                    _conversionRates.postValue(ApiCallNetworkResource
+                        .Error("unsuccessful",response.body()))
 
                 }
             }catch (e: Throwable) {
@@ -41,15 +43,14 @@ class ConversionServiceViewModel @Inject constructor(
                 when(e){
                     is IOException ->{
                         _conversionRates.postValue(ApiCallNetworkResource.Error(message =
-                        e.localizedMessage))
+                        "network error"))
                     }
                     else->{
                         _conversionRates.postValue(ApiCallNetworkResource.Error(message =
-                        e.localizedMessage))
+                        "oops something went wrong"))
                     }
                 }
-
+            }
         }
     }
-}
 }
