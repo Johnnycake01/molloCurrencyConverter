@@ -1,13 +1,13 @@
-package com.mollo.myapplication
+package com.mollo.myapplication.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.activity.viewModels
+import com.mollo.myapplication.R
 import com.mollo.myapplication.databinding.ActivityMainBinding
 import com.mollo.myapplication.model.Rates
 import com.mollo.myapplication.utils.*
@@ -36,17 +36,9 @@ class MainActivity : AppCompatActivity() {
     private fun observeNetworkCallResult() {
         viewModel.conversionRates.observe(this) {
             when (it) {
-                is ApiCallNetworkResource.Loading ->{
-                    Toast.makeText(this,"loading...",Toast.LENGTH_LONG).show()
-
-                }
-                is ApiCallNetworkResource.Success ->{
-                    listOfRates = it.data?.rates!!
-                }
-                is ApiCallNetworkResource.Error ->{
-
-                }
-
+                is ApiCallNetworkResource.Loading ->{}
+                is ApiCallNetworkResource.Success -> listOfRates = it.data?.rates!!
+                is ApiCallNetworkResource.Error ->{}
             }
         }
     }
