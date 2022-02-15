@@ -194,6 +194,7 @@
                 android:text="@string/past_30_days"
                 />
                <androidx.cardview.widget.CardView
+                   android:id="@+id/dotPast30days"
                    android:layout_width="10dp"
                    android:layout_height="10dp"
                    app:cardBackgroundColor="@color/appColorGreen"
