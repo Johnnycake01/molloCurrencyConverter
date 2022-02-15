@@ -152,6 +152,69 @@
         app:layout_constraintTop_toBottomOf="@id/convertButton"
         />
 
-
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        app:layout_constraintTop_toBottomOf="@id/linkToViewCurrentExchangeRate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/appColorBlue"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/L30days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/L90days"
+                >
+            <TextView
+                android:id="@+id/txtPast30days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="@string/past_30_days"
+                />
+               <androidx.cardview.widget.CardView
+                   android:layout_width="10dp"
+                   android:layout_height="10dp"
+                   app:cardBackgroundColor="@color/appColorGreen"
+                   app:cardCornerRadius="5dp"
+                   />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/L90days"
+                android:layout_marginTop="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/L30days"
+                >
+                <TextView
+                    android:id="@+id/txtPast90days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="@string/past_90_days"
+             />
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/dotPast90days"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    app:cardBackgroundColor="@color/appColorGreen"
+                    app:cardCornerRadius="5dp"
+                    />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

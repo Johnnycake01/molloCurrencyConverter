@@ -4,9 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/johnson.oyesina/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/custom_button_field.xml" value="0.139" />
+        <entry key="..\:/Users/johnson.oyesina/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/custom_card_view.xml" value="0.1" />
         <entry key="..\:/Users/johnson.oyesina/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/custom_text_field.xml" value="0.1" />
         <entry key="..\:/Users/johnson.oyesina/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/ic_baseline_notes_24.xml" value="0.139" />
-        <entry key="..\:/Users/johnson.oyesina/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_main.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/johnson.oyesina/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_main.xml" value="0.14666666666666667" />
       </map>
     </option>
   </component>
