@@ -9,5 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="appColorGreen">#59d49a</color>
     <color name="appColorBlue">#0F8CFA</color>
+    <color name="appColorDarkBlue">#051283</color>
     <color name="translucent">#50cccccc</color>
+    <color name="lightblue">#5035BAF8</color>
 </resources>

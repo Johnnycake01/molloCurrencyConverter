@@ -157,7 +157,9 @@
         android:id="@+id/linkToViewCurrentExchangeRate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/appColorBlue"
         tools:text="@string/link_to_view_exchange_rate"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -225,9 +227,20 @@
                     android:layout_height="10dp"
                     app:cardBackgroundColor="@color/appColorGreen"
                     app:cardCornerRadius="5dp"
+                    android:layout_marginBottom="-10dp"
                     />
+
             </LinearLayout>
+            <com.broooapps.graphview.CurveGraphView
+                android:id="@+id/cgv"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
