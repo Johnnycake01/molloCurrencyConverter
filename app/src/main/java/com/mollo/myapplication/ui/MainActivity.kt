@@ -1,18 +1,26 @@
 package com.mollo.myapplication.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import com.broooapps.graphview.CurveGraphConfig
+import com.broooapps.graphview.models.GraphData
+import com.broooapps.graphview.models.PointMap
 import com.mollo.myapplication.R
 import com.mollo.myapplication.databinding.ActivityMainBinding
 import com.mollo.myapplication.model.Rates
 import com.mollo.myapplication.utils.*
 import com.mollo.myapplication.viewmodel.ConversionServiceViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -31,6 +39,36 @@ class MainActivity : AppCompatActivity() {
         submitButtonClickedToConvertCurrency()
         viewModel.getAllRates(ACCESS_KEY)
         observeNetworkCallResult()
+        drawGraph()
+    }
+
+    private fun drawGraph() {
+        binding.cgv.configure(
+            CurveGraphConfig.Builder(this)
+                .setAxisColor(R.color.appColorBlue)
+                .setIntervalDisplayCount(10)
+                .setNoDataMsg(" No Data ") // Message when no data is provided to the view.
+                .setxAxisScaleTextColor(R.color.white) // Set X axis scale text color.
+                .setyAxisScaleTextColor(R.color.white) // Set Y axis scale text color
+                .setAnimationDuration(2000) // Set Animation Duration
+                .build())
+
+        val p2 =  PointMap()
+        p2.addPoint(0, 350)
+        p2.addPoint(1, 500)
+        p2.addPoint(2, 750)
+        p2.addPoint(3, 600)
+
+
+        val gd2 = GraphData.builder(this)
+            .setPointMap(p2)
+            .setGraphStroke(R.color.appColorDarkBlue)
+            .setGraphGradient(R.color.appColorDarkBlue, R.color.lightblue)
+            .build();
+
+         Handler(Looper.getMainLooper()).postDelayed({
+                binding.cgv.setData(3, 1000, gd2);
+        }, 250)
     }
 
     private fun observeNetworkCallResult() {
@@ -107,6 +145,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpCurrency(firstCurrency: String? = null, secondCurrency: String?= null) {
+
+        binding.linkToViewCurrentExchangeRate.text = getString(R.string.link_to_view_exchange_rate,
+            SimpleDateFormat("h:mm a").format(Date())
+        )
         if (firstCurrency != null){
             binding.textFieldFirstCurrency.suffixText = firstCurrency
             binding.textFieldFirstCurrency.hint = firstCurrency
