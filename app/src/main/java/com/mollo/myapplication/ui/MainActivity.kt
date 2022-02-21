@@ -9,21 +9,26 @@ import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.broooapps.graphview.CurveGraphConfig
 import com.broooapps.graphview.models.GraphData
 import com.broooapps.graphview.models.PointMap
 import com.mollo.myapplication.R
 import com.mollo.myapplication.databinding.ActivityMainBinding
 import com.mollo.myapplication.model.Rates
+import com.mollo.myapplication.services.GetCurrentTime
 import com.mollo.myapplication.utils.*
 import com.mollo.myapplication.viewmodel.ConversionServiceViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), GetCurrentTime {
     private lateinit var binding: ActivityMainBinding
     private val viewModel:ConversionServiceViewModel by viewModels()
     private var listOfRates:Rates? = null
@@ -40,6 +45,18 @@ class MainActivity : AppCompatActivity() {
         viewModel.getAllRates(ACCESS_KEY)
         observeNetworkCallResult()
         drawGraph()
+        setUpWorkManager()
+    }
+
+    private fun setUpWorkManager() {
+        val getCurrentTimeWorkRequest: WorkRequest =
+            PeriodicWorkRequestBuilder<ConverterWorkManagerUpdateTime>(1,TimeUnit.MINUTES)
+                .build()
+
+        val workManager = WorkManager.getInstance(this)
+        workManager.enqueue(getCurrentTimeWorkRequest)
+
+
     }
 
     private fun drawGraph() {
@@ -75,7 +92,13 @@ class MainActivity : AppCompatActivity() {
         viewModel.conversionRates.observe(this) {
             when (it) {
                 is ApiCallNetworkResource.Loading ->{}
-                is ApiCallNetworkResource.Success -> listOfRates = it.data?.rates!!
+                is ApiCallNetworkResource.Success -> {
+                    if (listOfRates == null){
+                        Toast.makeText(this, "server not found", Toast.LENGTH_SHORT).show()
+                    }else{
+                        listOfRates = it.data?.rates!!
+                    }
+                }
                 is ApiCallNetworkResource.Error ->{}
             }
         }
@@ -160,5 +183,11 @@ class MainActivity : AppCompatActivity() {
        val intermediate = convertAnyToEuro(fromCurrencyAmount, getRate(fromCurrency, listOfRates!!))
 
         return convertEuroToAny(intermediate, getRate(toCurrencyType,listOfRates!!))
+    }
+
+    override fun getCurrentTime() {
+        binding.linkToViewCurrentExchangeRate.text = getString(R.string.link_to_view_exchange_rate,
+            SimpleDateFormat("h:mm a").format(Date())
+        )
     }
 }
