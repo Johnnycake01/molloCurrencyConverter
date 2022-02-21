@@ -76,6 +76,9 @@ dependencies {
     //curveGraph Dependency
     implementation project(path: ':graphview')
 
+    //workManager dependency
+    implementation("androidx.work:work-runtime-ktx:2.7.1")
+
 
 }
 // Allow references to generated code
